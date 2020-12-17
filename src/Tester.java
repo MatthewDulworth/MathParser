@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class Tester {
@@ -11,6 +12,7 @@ public class Tester {
 	}
 
 	private static void lexerTests() throws IOException {
+
 		String in = "3 4 + (4 / 2) * 5 - 24534";
 		Token[] arr = {
 				  new NumberToken(34),
@@ -26,10 +28,20 @@ public class Tester {
 				  new NumberToken(24534),
 		};
 		List<Token> exp = new ArrayList<>(Arrays.asList(arr));
-		List<Token> res = Lexer.getTokens(in);
-		System.out.println(exp);
-		System.out.println(res);
-		test("Tests Lexer.getTokens on full expression ", exp.equals(res));
+		Lexer lexer = new Lexer(in);
+		test("Tests Lexer.getTokens on full expression ", lexerListEqual(lexer, exp));
+	}
+
+	private static boolean lexerListEqual(Lexer lexer, List<Token> list) {
+		Token t = lexer.getNextToken();
+		Iterator<Token> iter = list.iterator();
+
+		boolean result = true;
+		while (t != null && iter.hasNext()) {
+			result = result && iter.next().equals(t);
+			t = lexer.getNextToken();
+		}
+		return result && !iter.hasNext() && t == null;
 	}
 
 	private static void test(String test, boolean condition) {

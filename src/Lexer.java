@@ -17,7 +17,7 @@ public class Lexer {
 	 * @param input The input to tokenize.
 	 * @throws IOException If an unknown character is encountered.
 	 */
-	private Lexer(String input) throws IOException {
+	public Lexer(String input) throws IOException {
 		tokenIterator = getTokens(input).iterator();
 	}
 
