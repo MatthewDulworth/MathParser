@@ -26,12 +26,40 @@ public class Parser {
 	 * @return A syntax tree build from the given tokens.
 	 */
 	private static TreeNode buildSyntaxTree(Iterator<Token> tokens) {
+
+		// init the tree with the first token in tokens
 		TreeNode currentNode = new TreeNode(null, tokens.next());
-		TreeNode root = currentNode;
 
+		// for all the remaining tokens in tokens
 		while (tokens.hasNext()) {
-			Token t = tokens.next();
+			Token newItem = tokens.next();
 
+			// move the current node up the tree while the currentNode's precedence is higher than
+			// the precedence of token
+			TreeNode oldRight = null;
+			while (currentNode != null && currentNode.token.getPrecedence() >= newItem.getPrecedence()) {
+				oldRight = currentNode;
+				currentNode = currentNode.parent;
+			}
+
+			// token now has a precedence strictly less than currentNode
+			TreeNode newNode = new TreeNode(currentNode, newItem);
+
+			// set the left child of the new node to be the right child of the current node
+			if (currentNode != null) {
+				newNode.setLeft(currentNode.right);
+				currentNode.setRight(newNode);
+			} else {
+				newNode.setLeft(oldRight);
+			}
+
+			currentNode = newNode;
+		}
+
+		// find the root
+		TreeNode root = currentNode;
+		while (root.parent != null) {
+			root = root.parent;
 		}
 
 		return root;
@@ -66,6 +94,20 @@ public class Parser {
 		public TreeNode(TreeNode parent, Token token) {
 			this.parent = parent;
 			this.token = token;
+		}
+
+		public void setLeft(TreeNode newLeft) {
+			left = newLeft;
+			if (newLeft != null) {
+				newLeft.parent = this;
+			}
+		}
+
+		public void setRight(TreeNode newRight) {
+			right = newRight;
+			if (newRight != null) {
+				newRight.parent = this;
+			}
 		}
 	}
 }
