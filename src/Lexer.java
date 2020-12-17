@@ -42,36 +42,21 @@ public final class Lexer {
 			char c = input.charAt(i);
 
 			if (Character.isDigit(c)) {
-				tokens.add(getNumberToken(input, i));
+				// Creates a number Token from the digit at the given index in the input string and
+				// all digits immediately following it.
+				StringBuilder value = new StringBuilder();
+				while (i < input.length() && Character.isDigit(input.charAt(i))) {
+					value.append(input.charAt(i));
+					i++;
+				}
+				i--;
+				tokens.add(new Token(TokenType.NUMBER, value.toString()));
 			} else {
 				tokens.add(getNonNumberToken(c));
 			}
 		}
 
 		return tokens;
-	}
-
-	/**
-	 * Creates a number Token from the digit at the given index in the input string and all digits
-	 * immediately following it.
-	 *
-	 * pre: i is a valid index of input and the char at i is a digit
-	 * is checked by getTokens
-	 *
-	 * @param input The input string.
-	 * @param i     The index of the first digit in the string
-	 * @return A number Token.
-	 */
-	private static Token getNumberToken(String input, int i) {
-		StringBuilder value = new StringBuilder();
-
-		int j = i;
-		while (j < input.length() && Character.isDigit(input.charAt(j))) {
-			value.append(input.charAt(j));
-			j++;
-		}
-
-		return new Token(TokenType.NUMBER, value.toString());
 	}
 
 	/**
