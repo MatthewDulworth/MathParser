@@ -15,4 +15,18 @@ public class Token {
 		this.type = type;
 		this.value = value;
 	}
+
+	/**
+	 * @return The value of the token.
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @return The type of the token.
+	 */
+	public TokenType getType() {
+		return type;
+	}
 }
