@@ -13,20 +13,34 @@ public final class Lexer {
 
 	public static List<Token> getTokens(String input) throws IOException {
 
+		// remove all whitespace from the input string
+		input = input.replaceAll("\\s", "");
+		
 		List<Token> tokens = new ArrayList<>();
-		String value = "";
 
 		for (int i = 0; i < input.length(); i++) {
 			char c = input.charAt(i);
 
 			if (Character.isDigit(c)) {
-
-			} else if (c != ' ') {
+				tokens.add(getNumberToken(input, i));
+			} else {
 				tokens.add(getNonNumberToken(c));
 			}
 		}
 
 		return tokens;
+	}
+
+	private static Token getNumberToken(String input, int i) {
+		StringBuilder value = new StringBuilder();
+
+		int j = i;
+		while (j < input.length() && Character.isDigit(input.charAt(j))) {
+			value.append(input.charAt(j));
+			j++;
+		}
+
+		return new Token(TokenType.NUMBER, value.toString());
 	}
 
 	private static Token getNonNumberToken(char c) throws IOException {
