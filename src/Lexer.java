@@ -7,9 +7,8 @@ import java.util.List;
 /**
  * Lexer to tokenize strings representing mathematical expressions.
  */
-public class Lexer {
-
-	private final Iterator<Token> tokenIterator;
+public class Lexer implements Iterable<Token> {
+	private List<Token> tokens;
 
 	/**
 	 * Creates a new lexer for the given input.
@@ -18,7 +17,7 @@ public class Lexer {
 	 * @throws IOException If an unknown character is encountered.
 	 */
 	public Lexer(String input) throws IOException {
-		tokenIterator = getTokens(input).iterator();
+		tokens = getTokens(input);
 	}
 
 	/**
@@ -93,13 +92,16 @@ public class Lexer {
 	}
 
 	/**
-	 * @return The next token if it exists, null otherwise.
+	 * @return An iterator over the tokens in the lexer.
 	 */
-	public Token getNextToken() {
-		if (tokenIterator.hasNext()) {
-			return tokenIterator.next();
-		} else {
-			return null;
-		}
+	public Iterator<Token> iterator() {
+		return tokens.iterator();
+	}
+
+	/**
+	 * @return The number of tokens in the lexer.
+	 */
+	public int size() {
+		return tokens.size();
 	}
 }

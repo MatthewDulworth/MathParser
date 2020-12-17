@@ -33,15 +33,15 @@ public class Tester {
 	}
 
 	private static boolean lexerListEqual(Lexer lexer, List<Token> list) {
-		Token t = lexer.getNextToken();
-		Iterator<Token> iter = list.iterator();
+
+		Iterator<Token> i = lexer.iterator();
+		Iterator<Token> j = list.iterator();
 
 		boolean result = true;
-		while (t != null && iter.hasNext()) {
-			result = result && iter.next().equals(t);
-			t = lexer.getNextToken();
+		while (i.hasNext() && j.hasNext()) {
+			result = result && j.next().equals(i.next());
 		}
-		return result && !iter.hasNext() && t == null;
+		return result && !i.hasNext() && !j.hasNext();
 	}
 
 	private static void test(String test, boolean condition) {
