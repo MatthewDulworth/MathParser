@@ -2,7 +2,26 @@
  * Represents a single token in an expression.
  */
 public class Token {
-	private TokenType type;
+
+	static int[] precedenceMap;
+
+	static {
+		precedenceMap = new int[7];
+
+		// add & subtract have the same precedence
+		precedenceMap[TokenType.ADD.ordinal()] = 2;
+		precedenceMap[TokenType.SUBTRACT.ordinal()] = 2;
+
+		// divide and multiply have the same precedence
+		precedenceMap[TokenType.MULTIPLY.ordinal()] = 4;
+		precedenceMap[TokenType.DIVIDE.ordinal()] = 4;
+
+		// numbers always have the highest precedence
+		precedenceMap[TokenType.NUMBER.ordinal()] = 100;
+	}
+
+	private final TokenType type;
+	private final int precedence;
 
 	/**
 	 * Creates a new Token of the given type.
@@ -11,6 +30,7 @@ public class Token {
 	 */
 	public Token(TokenType type) {
 		this.type = type;
+		precedence = precedenceMap[type.ordinal()];
 	}
 
 	/**
@@ -18,6 +38,13 @@ public class Token {
 	 */
 	public TokenType getType() {
 		return type;
+	}
+
+	/**
+	 * @return The precedence of the type
+	 */
+	public int getPrecedence() {
+		return precedence;
 	}
 
 	/**
