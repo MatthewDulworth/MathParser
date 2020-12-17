@@ -29,4 +29,24 @@ public class Token {
 	public TokenType getType() {
 		return type;
 	}
+
+	/**
+	 * @return A string representation of the Token
+	 */
+	public String toString() {
+		return "Token{type=" + type + ", value=\"" + value + "\"}";
+	}
+
+	/**
+	 * @param o The object to compare to.
+	 * @return True equal if o is a Token with the same type and value, false otherwise.
+	 */
+	public boolean equals(Object o) {
+		if (o instanceof Token) {
+			Token t = (Token) o;
+			return t.type.equals(this.type) && t.value.equals(this.value);
+		} else {
+			return false;
+		}
+	}
 }

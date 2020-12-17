@@ -19,3 +19,5 @@ expression = component [{("+" | "-") component}]
 https://lukaszwrobel.pl/blog/math-parser-part-2-grammar/
 
 https://levelup.gitconnected.com/create-your-own-expression-parser-d1f622077796
+
+https://github.com/github/gitignore/blob/master/Global/JetBrains.gitignore
