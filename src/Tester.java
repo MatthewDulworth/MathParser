@@ -13,17 +13,17 @@ public class Tester {
 	private static void lexerTests() throws IOException {
 		String in = "3 4 + (4 / 2) * 5 - 24534";
 		Token[] arr = {
-				  new Token(TokenType.NUMBER, "34"),
-				  new Token(TokenType.ADD, "+"),
-				  new Token(TokenType.OPEN_PAREN, "("),
-				  new Token(TokenType.NUMBER, "4"),
-				  new Token(TokenType.DIVIDE, "/"),
-				  new Token(TokenType.NUMBER, "2"),
-				  new Token(TokenType.CLOSE_PAREN, ")"),
-				  new Token(TokenType.MULTIPLY, "*"),
-				  new Token(TokenType.NUMBER, "5"),
-				  new Token(TokenType.SUBTRACT, "-"),
-				  new Token(TokenType.NUMBER, "24534"),
+				  new NumberToken(34),
+				  new Token(TokenType.ADD),
+				  new Token(TokenType.OPEN_PAREN),
+				  new NumberToken(4),
+				  new Token(TokenType.DIVIDE),
+				  new NumberToken(2),
+				  new Token(TokenType.CLOSE_PAREN),
+				  new Token(TokenType.MULTIPLY),
+				  new NumberToken(5),
+				  new Token(TokenType.SUBTRACT),
+				  new NumberToken(24534),
 		};
 		List<Token> exp = new ArrayList<>(Arrays.asList(arr));
 		List<Token> res = Lexer.getTokens(in);

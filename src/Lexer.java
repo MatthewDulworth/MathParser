@@ -50,7 +50,7 @@ public final class Lexer {
 					i++;
 				}
 				i--;
-				tokens.add(new Token(TokenType.NUMBER, value.toString()));
+				tokens.add(new NumberToken(Double.parseDouble(value.toString())));
 			} else {
 				tokens.add(getNonNumberToken(c));
 			}
@@ -88,6 +88,6 @@ public final class Lexer {
 			throw new IOException("Encountered unknown character. Unicode value: \\u" +
 					  Integer.toHexString(c | 0x10000).substring(1));
 		}
-		return new Token(type, c + "");
+		return new Token(type);
 	}
 }
