@@ -1,24 +1,25 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
 /**
- * Utility class to tokenize strings representing mathematical expressions.
+ * Lexer to tokenize strings representing mathematical expressions.
  */
-public final class Lexer {
+public class Lexer {
+
+	private final Iterator<Token> tokenIterator;
 
 	/**
-	 * Private constructor to prevent instantiations of Lexer.
+	 * Creates a new lexer for the given input.
 	 *
-	 * @throws RuntimeException In the case that anyone attempts to instantiate Lexer using
-	 *                          reflection.
+	 * @param input The input to tokenize.
+	 * @throws IOException If an unknown character is encountered.
 	 */
-	private Lexer() throws RuntimeException {
-		throw new RuntimeException("Instantiation of this class is not allowed" +
-				  ".");
+	private Lexer(String input) throws IOException {
+		tokenIterator = getTokens(input).iterator();
 	}
-
 
 	/**
 	 * Converts an input string into a list of tokens
@@ -31,7 +32,7 @@ public final class Lexer {
 	 * @return The to
 	 * @throws IOException If an unrecognized character is encountered.
 	 */
-	public static List<Token> getTokens(String input) throws IOException {
+	private static List<Token> getTokens(String input) throws IOException {
 
 		// remove all whitespace from the input string
 		input = input.replaceAll("\\s", "");
@@ -89,5 +90,16 @@ public final class Lexer {
 					  Integer.toHexString(c | 0x10000).substring(1));
 		}
 		return new Token(type);
+	}
+
+	/**
+	 * @return The next token if it exists, null otherwise.
+	 */
+	public Token getNextToken() {
+		if (tokenIterator.hasNext()) {
+			return tokenIterator.next();
+		} else {
+			return null;
+		}
 	}
 }
