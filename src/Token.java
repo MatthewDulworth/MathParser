@@ -13,11 +13,10 @@ public class Token {
 		precedenceMap[TokenType.ADD.ordinal()] = 2;
 		precedenceMap[TokenType.SUBTRACT.ordinal()] = 2;
 
-		precedenceMap[TokenType.NEGATION.ordinal()] = 3;
-		precedenceMap[TokenType.MULTIPLY.ordinal()] = 4;
-		precedenceMap[TokenType.DIVIDE.ordinal()] = 4;
-		precedenceMap[TokenType.EXPONEN.ordinal()] = 5;
-		precedenceMap[TokenType.FACTORIAL.ordinal()] = 6;
+		precedenceMap[TokenType.MULTIPLY.ordinal()] = 3;
+		precedenceMap[TokenType.DIVIDE.ordinal()] = 3;
+		precedenceMap[TokenType.NEGATION.ordinal()] = 4;
+		precedenceMap[TokenType.EXPONENT.ordinal()] = 5;
 
 		precedenceMap[TokenType.NUMBER.ordinal()] = Integer.MAX_VALUE;
 		precedenceMap[TokenType.SIN.ordinal()] = Integer.MAX_VALUE;
@@ -33,8 +32,7 @@ public class Token {
 		symbolMap[TokenType.NEGATION.ordinal()] = "-neg";
 		symbolMap[TokenType.MULTIPLY.ordinal()] = "*";
 		symbolMap[TokenType.DIVIDE.ordinal()] = "/";
-		symbolMap[TokenType.EXPONEN.ordinal()] = "^";
-		symbolMap[TokenType.FACTORIAL.ordinal()] = "!";
+		symbolMap[TokenType.EXPONENT.ordinal()] = "^";
 
 		symbolMap[TokenType.NUMBER.ordinal()] = ".";
 		symbolMap[TokenType.SIN.ordinal()] = "sin";
@@ -73,7 +71,7 @@ public class Token {
 	 * @return True if the the token is a right associative operator.
 	 */
 	public boolean isRightAssociative() {
-		return type == TokenType.EXPONEN || type == TokenType.CLOSE_PAREN;
+		return type == TokenType.EXPONENT || type == TokenType.CLOSE_PAREN;
 	}
 
 	/**

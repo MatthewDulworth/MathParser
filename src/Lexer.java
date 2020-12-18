@@ -71,10 +71,10 @@ public class Lexer implements Iterable<Token> {
 			prev = TokenType.MULTIPLY;
 		}
 
-		// The token is subtract only if the previous token is a close parentheses, a number, a
-		// variable, or a factorial.
+		// The token is subtract only if the previous token is a close parentheses, a number, or a
+		// variable.
 		if (prev == TokenType.CLOSE_PAREN || prev == TokenType.NUMBER ||
-				  prev == TokenType.VARIABLE || prev == TokenType.FACTORIAL) {
+				  prev == TokenType.VARIABLE) {
 			return new Token(TokenType.SUBTRACT);
 		} else {
 			return new Token(TokenType.NEGATION);
@@ -174,9 +174,7 @@ public class Lexer implements Iterable<Token> {
 		} else if (c == ')') {
 			type = TokenType.CLOSE_PAREN;
 		} else if (c == '^') {
-			type = TokenType.EXPONEN;
-		} else if (c == '!') {
-			type = TokenType.FACTORIAL;
+			type = TokenType.EXPONENT;
 		} else {
 			throw new IOException("Encountered unknown character. Unicode value: \\u" +
 					  Integer.toHexString(c | 0x10000).substring(1));

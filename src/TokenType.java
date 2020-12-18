@@ -7,14 +7,13 @@ public enum TokenType {
 
 	// unary operators
 	NEGATION,
-	FACTORIAL,
 
 	// binary operators
 	ADD,
 	SUBTRACT,
 	MULTIPLY,
 	DIVIDE,
-	EXPONEN,
+	EXPONENT,
 
 	// parentheses
 	OPEN_PAREN,

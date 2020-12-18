@@ -24,8 +24,7 @@ public class Parser {
 		TreeNode root = buildSyntaxTree(lexer.iterator());
 
 		TreePrinter.print(root);
-		return "";
-		//return Double.toString(evaluateSyntaxTree(root));
+		return Double.toString(evaluateSyntaxTree(root));
 	}
 
 	/**
@@ -154,8 +153,16 @@ public class Parser {
 			return leftVal * rightVal;
 		} else if (token.getType() == TokenType.DIVIDE) {
 			return leftVal / rightVal;
-		} else if (token.getType() == TokenType.EXPONEN) {
+		} else if (token.getType() == TokenType.EXPONENT) {
 			return Math.pow(leftVal, rightVal);
+		} else if (token.getType() == TokenType.NEGATION) {
+			return -1 * rightVal;
+		} else if (token.getType() == TokenType.SIN) {
+			return Math.sin(rightVal);
+		} else if (token.getType() == TokenType.COS) {
+			return Math.cos(rightVal);
+		} else if (token.getType() == TokenType.TAN) {
+			return Math.tan(rightVal);
 		} else {
 			return 0;
 		}

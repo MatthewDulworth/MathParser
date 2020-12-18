@@ -9,8 +9,8 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-//		lexerTests();
-		System.out.println(Parser.parse("3 ^ 5! * 3 ^3 - 2 + cos(3! ^2)"));
+		lexerTests();
+		System.out.println(Parser.parse("3 ^ -1 * 3"));
 	}
 
 	private static void lexerTests() throws IOException {
@@ -32,13 +32,13 @@ public class Tester {
 				  new Token(TokenType.SUBTRACT),
 				  new Token(TokenType.NEGATION),
 				  new NumberToken(24534),
-				  new Token(TokenType.EXPONEN),
+				  new Token(TokenType.EXPONENT),
 				  new NumberToken(12.3),
 				  new Token(TokenType.ADD),
 				  new Token(TokenType.TAN),
 				  new Token(TokenType.OPEN_PAREN),
 				  new NumberToken(3),
-				  new Token(TokenType.EXPONEN),
+				  new Token(TokenType.EXPONENT),
 				  new Token(TokenType.NEGATION),
 				  new NumberToken(5.0),
 				  new Token(TokenType.CLOSE_PAREN),
