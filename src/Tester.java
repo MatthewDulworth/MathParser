@@ -11,7 +11,7 @@ public class Tester {
 
 //		lexerTests();
 
-		Parser.parse("3 * 4 ^ (3 + 1)");
+		System.out.println(Parser.parse("3 * 4 ^ (3 + 1) - 700"));
 	}
 
 	private static void lexerTests() throws IOException {

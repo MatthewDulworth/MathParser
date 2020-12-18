@@ -23,8 +23,7 @@ public class Parser {
 		System.out.println(input);
 		TreePrinter.print(root);
 
-		return "";
-		//return evaluateSyntaxTree(root);
+		return Double.toString(evaluateSyntaxTree(root));
 	}
 
 	/**
@@ -123,11 +122,33 @@ public class Parser {
 	/**
 	 * Evaluates the math expresion represented by Abstract Syntax Tree rooted at the given node.
 	 *
-	 * @param root The root of the tree.
+	 * @param node The root of the tree.
 	 * @return The result of the expression.
 	 */
-	private static String evaluateSyntaxTree(TreeNode root) {
-		throw new UnsupportedOperationException("evaluateSyntaxTree has not yet been implemented");
+	private static double evaluateSyntaxTree(TreeNode node) {
+		if (node == null) {
+			return 0;
+		}
+
+		double leftVal = evaluateSyntaxTree(node.left);
+		double rightVal = evaluateSyntaxTree(node.right);
+
+		Token token = node.token;
+		if (token.getType() == TokenType.NUMBER) {
+			return ((NumberToken) token).getValue();
+		} else if (token.getType() == TokenType.ADD) {
+			return leftVal + rightVal;
+		} else if (token.getType() == TokenType.SUBTRACT) {
+			return leftVal - rightVal;
+		} else if (token.getType() == TokenType.MULTIPLY) {
+			return leftVal * rightVal;
+		} else if (token.getType() == TokenType.DIVIDE) {
+			return leftVal / rightVal;
+		} else if (token.getType() == TokenType.EXPONEN) {
+			return Math.pow(leftVal, rightVal);
+		} else {
+			return 0;
+		}
 	}
 
 	/**
