@@ -45,12 +45,30 @@ public class Lexer implements Iterable<Token> {
 				i = addNumberToken(i, input, tokens);
 			} else if (Character.isLetter(c)) {
 				i = addFunction(i, input, tokens);
+			} else if (c == '-') {
+				tokens.add(subtractOrNegate(tokens));
 			} else {
 				tokens.add(getNonNumberToken(c));
 			}
 		}
 
 		return tokens;
+	}
+
+	private static Token subtractOrNegate(List<Token> tokens) {
+
+		TokenType prev;
+		if (tokens.size() > 0) {
+			prev = tokens.get(tokens.size() - 1).getType();
+		} else {
+			prev = TokenType.MULTIPLY;
+		}
+
+		if (prev == TokenType.CLOSE_PAREN || prev == TokenType.NUMBER || prev == TokenType.VARIABLE) {
+			return new Token(TokenType.SUBTRACT);
+		} else {
+			return new Token(TokenType.NEGATION);
+		}
 	}
 
 	private static int addFunction(int i, String input, List<Token> tokens) throws IOException {
@@ -95,6 +113,11 @@ public class Lexer implements Iterable<Token> {
 			i++;
 		}
 		i--;
+
+		if (value.length() == 1 && value.charAt(0) == '.') {
+			throw new IOException("Floating decimal");
+		}
+
 		tokens.add(new NumberToken(Double.parseDouble(value.toString())));
 		return i;
 	}
@@ -114,8 +137,6 @@ public class Lexer implements Iterable<Token> {
 
 		if (c == '+') {
 			type = TokenType.ADD;
-		} else if (c == '-') {
-			type = TokenType.SUBTRACT;
 		} else if (c == '*') {
 			type = TokenType.MULTIPLY;
 		} else if (c == '/') {

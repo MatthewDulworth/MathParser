@@ -3,6 +3,7 @@
  */
 public enum TokenType {
 	NUMBER,
+	VARIABLE,
 
 	// unary operators
 	NEGATION,

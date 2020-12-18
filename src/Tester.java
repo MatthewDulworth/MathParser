@@ -15,15 +15,15 @@ public class Tester {
 	}
 
 	private static void lexerTests() throws IOException {
+		String in;
+		Lexer lexer;
 
-
-
-
-		String in = "3 4 + (4 / 2) * 5 - 24534 ^ 12";
+		in = "3 4. 56 + (-4 / 2) * 5 - -24534 ^ 12.3 + tan(3^-5. 0) * .   0";
 		Token[] arr = {
-				  new NumberToken(34),
+				  new NumberToken(34.56),
 				  new Token(TokenType.ADD),
 				  new Token(TokenType.OPEN_PAREN),
+				  new Token(TokenType.NEGATION),
 				  new NumberToken(4),
 				  new Token(TokenType.DIVIDE),
 				  new NumberToken(2),
@@ -31,17 +31,25 @@ public class Tester {
 				  new Token(TokenType.MULTIPLY),
 				  new NumberToken(5),
 				  new Token(TokenType.SUBTRACT),
+				  new Token(TokenType.NEGATION),
 				  new NumberToken(24534),
 				  new Token(TokenType.EXPONEN),
-				  new NumberToken(12),
+				  new NumberToken(12.3),
+				  new Token(TokenType.ADD),
+				  new Token(TokenType.TAN),
+				  new Token(TokenType.OPEN_PAREN),
+				  new NumberToken(3),
+				  new Token(TokenType.EXPONEN),
+				  new Token(TokenType.NEGATION),
+				  new NumberToken(5.0),
+				  new Token(TokenType.CLOSE_PAREN),
+				  new Token(TokenType.MULTIPLY),
+				  new NumberToken(0.0),
 		};
 		List<Token> exp = new ArrayList<>(Arrays.asList(arr));
-		Lexer lexer = new Lexer(in);
-		test("Tests Lexer.getTokens on full expression ", lexerListEqual(lexer, exp));
-
-		in = "cos(344.2)!+sin(2^5)*!3^cos(34/2)";
 		lexer = new Lexer(in);
 		System.out.println(lexer);
+		test("Tests Lexer.getTokens on full expression ", lexerListEqual(lexer, exp));
 	}
 
 	private static boolean lexerListEqual(Lexer lexer, List<Token> list) {
@@ -50,8 +58,8 @@ public class Tester {
 		Iterator<Token> j = list.iterator();
 
 		boolean result = true;
-		while (i.hasNext() && j.hasNext()) {
-			result = result && j.next().equals(i.next());
+		while (i.hasNext() && j.hasNext() && result) {
+			result = j.next().equals(i.next());
 		}
 		return result && !i.hasNext() && !j.hasNext();
 	}
