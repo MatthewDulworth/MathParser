@@ -66,15 +66,6 @@ public class Token {
 	 * @return A string representation of the Token
 	 */
 	public String toString() {
-		return "Token{type=" + type + ", precedence=" + getPrecedence() + "}";
-	}
-
-	/**
-	 * A small string used for debugging.
-	 *
-	 * @return The symbol of the token.
-	 */
-	public String smallString() {
 		return symbolMap[type.ordinal()] + "";
 	}
 

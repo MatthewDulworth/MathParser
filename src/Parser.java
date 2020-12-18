@@ -215,7 +215,7 @@ public class Parser {
 		}
 
 		public String getText() {
-			return token.smallString();
+			return token.toString();
 		}
 	}
 }
