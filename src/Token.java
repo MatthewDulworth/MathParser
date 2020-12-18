@@ -4,6 +4,7 @@
 public class Token {
 
 	static int[] precedenceMap;
+	static char[] symbolMap;
 
 	static {
 		precedenceMap = new int[7];
@@ -18,6 +19,14 @@ public class Token {
 
 		// numbers always have the highest precedence
 		precedenceMap[TokenType.NUMBER.ordinal()] = 100;
+
+		symbolMap = new char[7];
+		symbolMap[TokenType.ADD.ordinal()] = '+';
+		symbolMap[TokenType.SUBTRACT.ordinal()] = '-';
+		symbolMap[TokenType.MULTIPLY.ordinal()] = '*';
+		symbolMap[TokenType.DIVIDE.ordinal()] = '/';
+		symbolMap[TokenType.OPEN_PAREN.ordinal()] = '(';
+		symbolMap[TokenType.CLOSE_PAREN.ordinal()] = ')';
 	}
 
 	private final TokenType type;
@@ -51,7 +60,14 @@ public class Token {
 	 * @return A string representation of the Token
 	 */
 	public String toString() {
-		return "Token{type=" + type + "}";
+		return "Token{type=" + type + ", precedence=" + getPrecedence() + "}";
+	}
+
+	/**
+	 * @return
+	 */
+	public String smallString() {
+		return symbolMap[type.ordinal()] + "";
 	}
 
 	/**

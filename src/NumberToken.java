@@ -26,7 +26,14 @@ public class NumberToken extends Token {
 	 * @return A string representation of the NumberToken
 	 */
 	public String toString() {
-		return "Token{type=NUMBER, value=" + value + "}";
+		return "Token{type=NUMBER, precedence=" + getPrecedence() + ", value=" + value + "}";
+	}
+
+	/**
+	 * @return
+	 */
+	public String smallString() {
+		return value + "";
 	}
 
 	/**

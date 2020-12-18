@@ -16,7 +16,12 @@ public class Parser {
 	public static String parse(String input) throws IOException {
 		Lexer lexer = new Lexer(input);
 		TreeNode root = buildSyntaxTree(lexer.iterator());
-		return evaluateSyntaxTree(root);
+
+		System.out.println(input);
+		TreePrinter.print(root);
+
+		return "";
+		//return evaluateSyntaxTree(root);
 	}
 
 	/**
@@ -76,9 +81,27 @@ public class Parser {
 	}
 
 	/**
+	 * @param root
+	 */
+	public static void printTree(TreeNode root) {
+		StringBuffer buffer = new StringBuffer();
+		buildTreeString(root, buffer);
+		System.out.print(buffer.toString());
+	}
+
+	/**
+	 * @param root
+	 * @param buffer
+	 */
+	private static void buildTreeString(TreeNode root, StringBuffer buffer) {
+
+	}
+
+
+	/**
 	 * Nodes of a syntax tree.
 	 */
-	private static class TreeNode {
+	private static class TreeNode implements TreePrinter.PrintableNode {
 
 		private Token token;
 		private TreeNode parent;
@@ -108,6 +131,19 @@ public class Parser {
 			if (newRight != null) {
 				newRight.parent = this;
 			}
+		}
+
+		// debug methods
+		public TreePrinter.PrintableNode getLeft() {
+			return left;
+		}
+
+		public TreePrinter.PrintableNode getRight() {
+			return right;
+		}
+
+		public String getText() {
+			return token.smallString();
 		}
 	}
 }
