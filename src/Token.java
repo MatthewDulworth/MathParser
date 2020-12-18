@@ -20,7 +20,7 @@ public class Token {
 		symbolMap[TokenType.SUBTRACT.ordinal()] = '-';
 		symbolMap[TokenType.MULTIPLY.ordinal()] = '*';
 		symbolMap[TokenType.DIVIDE.ordinal()] = '/';
-		symbolMap[TokenType.OPEN_PAREN.ordinal()] = '(';
+		symbolMap[TokenType.EXPONEN.ordinal()] = '^';
 		symbolMap[TokenType.OPEN_PAREN.ordinal()] = '(';
 		symbolMap[TokenType.CLOSE_PAREN.ordinal()] = ')';
 	}

@@ -37,27 +37,31 @@ public class Parser {
 
 		// for all the remaining tokens in tokens
 		while (tokens.hasNext()) {
-			Token newItem = tokens.next();
+			Token token = tokens.next();
 
 			// move the current node up the tree while the currentNode's precedence is higher than
 			// the precedence of token
 			TreeNode oldRight = null;
-			while (currentNode != null && currentNode.token.getPrecedence() >= newItem.getPrecedence()) {
-				oldRight = currentNode;
-				currentNode = currentNode.parent;
+			if (token.isRightAssociative()) {
+				while (currentNode != null && currentNode.token.getPrecedence() > token.getPrecedence()) {
+					oldRight = currentNode;
+					currentNode = currentNode.parent;
+				}
+			} else {
+				while (currentNode != null && currentNode.token.getPrecedence() >= token.getPrecedence()) {
+					oldRight = currentNode;
+					currentNode = currentNode.parent;
+				}
 			}
 
-			// token now has a precedence strictly less than currentNode
-			TreeNode newNode = new TreeNode(currentNode, newItem);
-
 			// set the left child of the new node to be the right child of the current node
+			TreeNode newNode = new TreeNode(currentNode, token);
 			if (currentNode != null) {
 				newNode.setLeft(currentNode.right);
 				currentNode.setRight(newNode);
 			} else {
 				newNode.setLeft(oldRight);
 			}
-
 			currentNode = newNode;
 		}
 

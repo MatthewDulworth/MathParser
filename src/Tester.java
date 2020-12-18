@@ -9,10 +9,9 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		lexerTests();
+//		lexerTests();
 
-//		Parser.parse("3 + 4 * 2");
-//		Parser.parse("7 * 10 / 4 + 13 - 2");
+		Parser.parse("3 * 3 ^ 2 ^ 5 + 1");
 	}
 
 	private static void lexerTests() throws IOException {
