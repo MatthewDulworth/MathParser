@@ -8,6 +8,8 @@ public class Token {
 
 	static {
 		precedenceMap = new int[TokenType.values().length];
+		precedenceMap[TokenType.OPEN_PAREN.ordinal()] = 1;
+		precedenceMap[TokenType.CLOSE_PAREN.ordinal()] = 1;
 		precedenceMap[TokenType.ADD.ordinal()] = 2;
 		precedenceMap[TokenType.SUBTRACT.ordinal()] = 2;
 		precedenceMap[TokenType.MULTIPLY.ordinal()] = 4;
@@ -16,6 +18,7 @@ public class Token {
 		precedenceMap[TokenType.NUMBER.ordinal()] = 100;
 
 		symbolMap = new char[TokenType.values().length];
+		symbolMap[TokenType.NUMBER.ordinal()] = '0';
 		symbolMap[TokenType.ADD.ordinal()] = '+';
 		symbolMap[TokenType.SUBTRACT.ordinal()] = '-';
 		symbolMap[TokenType.MULTIPLY.ordinal()] = '*';
@@ -56,7 +59,7 @@ public class Token {
 	 * @return True if the the token is a right associative operator.
 	 */
 	public boolean isRightAssociative() {
-		return type == TokenType.EXPONEN;
+		return type == TokenType.EXPONEN || type == TokenType.CLOSE_PAREN;
 	}
 
 	/**

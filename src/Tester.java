@@ -11,7 +11,7 @@ public class Tester {
 
 //		lexerTests();
 
-		Parser.parse("3 * 3 ^ 2 ^ 5 + 1");
+		Parser.parse("3 * 4 ^ (3 + 1)");
 	}
 
 	private static void lexerTests() throws IOException {

@@ -47,22 +47,35 @@ public class Parser {
 					oldRight = currentNode;
 					currentNode = currentNode.parent;
 				}
-			} else {
+			} else if (token.getType() != TokenType.OPEN_PAREN) {
 				while (currentNode != null && currentNode.token.getPrecedence() >= token.getPrecedence()) {
 					oldRight = currentNode;
 					currentNode = currentNode.parent;
 				}
 			}
 
-			// set the left child of the new node to be the right child of the current node
-			TreeNode newNode = new TreeNode(currentNode, token);
-			if (currentNode != null) {
-				newNode.setLeft(currentNode.right);
-				currentNode.setRight(newNode);
+			if (token.getType() == TokenType.CLOSE_PAREN) {
+				if (currentNode == null || currentNode.token.getType() != TokenType.OPEN_PAREN) {
+					throw new IllegalStateException("Invalid Syntax: no opening parentheses found.");
+				}
+				TreeNode parent = currentNode.parent;
+				parent.setRight(currentNode.right);
+				currentNode.right = null;
+				currentNode.left = null;
+				currentNode.parent = null;
+				currentNode = parent;
+
 			} else {
-				newNode.setLeft(oldRight);
+				// set the left child of the new node to be the right child of the current node
+				TreeNode newNode = new TreeNode(currentNode, token);
+				if (currentNode != null) {
+					newNode.setLeft(currentNode.right);
+					currentNode.setRight(newNode);
+				} else {
+					newNode.setLeft(oldRight);
+				}
+				currentNode = newNode;
 			}
-			currentNode = newNode;
 		}
 
 		// find the root
