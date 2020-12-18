@@ -80,23 +80,6 @@ public class Parser {
 		throw new UnsupportedOperationException("evaluateSyntaxTree has not yet been implemented");
 	}
 
-	/**
-	 * @param root
-	 */
-	public static void printTree(TreeNode root) {
-		StringBuffer buffer = new StringBuffer();
-		buildTreeString(root, buffer);
-		System.out.print(buffer.toString());
-	}
-
-	/**
-	 * @param root
-	 * @param buffer
-	 */
-	private static void buildTreeString(TreeNode root, StringBuffer buffer) {
-
-	}
-
 
 	/**
 	 * Nodes of a syntax tree.
@@ -119,6 +102,11 @@ public class Parser {
 			this.token = token;
 		}
 
+		/**
+		 * Sets the left child to the given node
+		 *
+		 * @param newLeft The new left child.
+		 */
 		public void setLeft(TreeNode newLeft) {
 			left = newLeft;
 			if (newLeft != null) {
@@ -126,6 +114,11 @@ public class Parser {
 			}
 		}
 
+		/**
+		 * Sets the right child to the given node.
+		 *
+		 * @param newRight The new right child.
+		 */
 		public void setRight(TreeNode newRight) {
 			right = newRight;
 			if (newRight != null) {

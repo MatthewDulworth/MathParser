@@ -64,7 +64,9 @@ public class Token {
 	}
 
 	/**
-	 * @return
+	 * A small string used for debugging.
+	 *
+	 * @return The symbol of the token.
 	 */
 	public String smallString() {
 		return symbolMap[type.ordinal()] + "";

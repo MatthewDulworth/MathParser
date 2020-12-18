@@ -30,7 +30,9 @@ public class NumberToken extends Token {
 	}
 
 	/**
-	 * @return
+	 * A small string used for debugging.
+	 *
+	 * @return The value of the token.
 	 */
 	public String smallString() {
 		return value + "";
