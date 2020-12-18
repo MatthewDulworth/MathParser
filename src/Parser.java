@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.util.Iterator;
 
+/**
+ * Parses math expressions into abstract input trees.
+ */
 public class Parser {
 
 	/**
@@ -29,8 +32,9 @@ public class Parser {
 	 *
 	 * @param tokens An iterator of a list of tokens.
 	 * @return A syntax tree build from the given tokens.
+	 * @throws IOException If the parentheses
 	 */
-	private static TreeNode buildSyntaxTree(Iterator<Token> tokens) {
+	private static TreeNode buildSyntaxTree(Iterator<Token> tokens) throws IOException {
 
 		// init the tree with the first token in tokens
 		TreeNode currentNode = new TreeNode(null, tokens.next());
@@ -39,15 +43,17 @@ public class Parser {
 		while (tokens.hasNext()) {
 			Token token = tokens.next();
 
-			// move the current node up the tree while the currentNode's precedence is higher than
-			// the precedence of token
+			// traverse up the list if the token is not an open parentheses
 			TreeNode oldRight = null;
 			if (token.isRightAssociative()) {
+				// the currentNode to the highest node with a precedence greater than the token
 				while (currentNode != null && currentNode.token.getPrecedence() > token.getPrecedence()) {
 					oldRight = currentNode;
 					currentNode = currentNode.parent;
 				}
 			} else if (token.getType() != TokenType.OPEN_PAREN) {
+				// the currentNode to the highest node with a precedence greater than or equal to the
+				// token
 				while (currentNode != null && currentNode.token.getPrecedence() >= token.getPrecedence()) {
 					oldRight = currentNode;
 					currentNode = currentNode.parent;
@@ -55,35 +61,62 @@ public class Parser {
 			}
 
 			if (token.getType() == TokenType.CLOSE_PAREN) {
-				if (currentNode == null || currentNode.token.getType() != TokenType.OPEN_PAREN) {
-					throw new IllegalStateException("Invalid Syntax: no opening parentheses found.");
-				}
-				TreeNode parent = currentNode.parent;
-				parent.setRight(currentNode.right);
-				currentNode.right = null;
-				currentNode.left = null;
-				currentNode.parent = null;
-				currentNode = parent;
-
+				currentNode = removeOpenParen(currentNode);
 			} else {
-				// set the left child of the new node to be the right child of the current node
-				TreeNode newNode = new TreeNode(currentNode, token);
-				if (currentNode != null) {
-					newNode.setLeft(currentNode.right);
-					currentNode.setRight(newNode);
-				} else {
-					newNode.setLeft(oldRight);
-				}
-				currentNode = newNode;
+				currentNode = insertToken(token, currentNode, oldRight);
 			}
 		}
 
-		// find the root
-		TreeNode root = currentNode;
+		return findRoot(currentNode);
+	}
+
+	/**
+	 * @param currentNode The current node in the AST.
+	 * @return The new current node i.e. the parent of the open parentheses that was removed.
+	 * @throws IOException If an opening parentheses cannot be found.
+	 */
+	private static TreeNode removeOpenParen(TreeNode currentNode) throws IOException {
+		if (currentNode == null || currentNode.token.getType() != TokenType.OPEN_PAREN) {
+			throw new IOException("Invalid Syntax: no opening parentheses found.");
+		}
+		TreeNode parent = currentNode.parent;
+		parent.setRight(currentNode.right);
+		currentNode.reset();
+		return parent;
+	}
+
+	/**
+	 * Inserts a token into the AST as the right child of the current node if it exists, otherwise
+	 * as the new root. The right child of the current node becomes the left child of the new node.
+	 * The new current node is the new node.
+	 *
+	 * @param token       The token to insert.
+	 * @param currentNode The current node in the AST.
+	 * @param oldRight    The old right child of the current node.
+	 * @return The new current node i.e. the new node.
+	 */
+	private static TreeNode insertToken(Token token, TreeNode currentNode, TreeNode oldRight) {
+		// set the left child of the new node to be the right child of the current node
+		TreeNode newNode = new TreeNode(currentNode, token);
+		if (currentNode != null) {
+			newNode.setLeft(currentNode.right);
+			currentNode.setRight(newNode);
+		} else {
+			newNode.setLeft(oldRight);
+		}
+
+		return newNode;
+	}
+
+	/**
+	 * @param node A node in an AST.
+	 * @return The root of AST that the given node is a part of.
+	 */
+	private static TreeNode findRoot(TreeNode node) {
+		TreeNode root = node;
 		while (root.parent != null) {
 			root = root.parent;
 		}
-
 		return root;
 	}
 
@@ -96,7 +129,6 @@ public class Parser {
 	private static String evaluateSyntaxTree(TreeNode root) {
 		throw new UnsupportedOperationException("evaluateSyntaxTree has not yet been implemented");
 	}
-
 
 	/**
 	 * Nodes of a syntax tree.
@@ -141,6 +173,15 @@ public class Parser {
 			if (newRight != null) {
 				newRight.parent = this;
 			}
+		}
+
+		/**
+		 * Nulls out all references to parents and children.
+		 */
+		public void reset() {
+			right = null;
+			left = null;
+			parent = null;
 		}
 
 		// debug methods
