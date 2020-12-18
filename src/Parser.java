@@ -18,12 +18,14 @@ public class Parser {
 	 */
 	public static String parse(String input) throws IOException {
 		Lexer lexer = new Lexer(input);
+		System.out.println(input);
+		System.out.println(lexer);
+
 		TreeNode root = buildSyntaxTree(lexer.iterator());
 
-		System.out.println(input);
 		TreePrinter.print(root);
-
-		return Double.toString(evaluateSyntaxTree(root));
+		return "";
+		//return Double.toString(evaluateSyntaxTree(root));
 	}
 
 	/**
@@ -50,7 +52,7 @@ public class Parser {
 					oldRight = currentNode;
 					currentNode = currentNode.parent;
 				}
-			} else if (token.getType() != TokenType.OPEN_PAREN) {
+			} else if (!token.getType().equals(TokenType.OPEN_PAREN) && !token.getType().equals(TokenType.NEGATION)) {
 				// the currentNode to the highest node with a precedence greater than or equal to the
 				// token
 				while (currentNode != null && currentNode.token.getPrecedence() >= token.getPrecedence()) {
@@ -78,10 +80,18 @@ public class Parser {
 		if (currentNode == null || currentNode.token.getType() != TokenType.OPEN_PAREN) {
 			throw new IOException("Invalid Syntax: no opening parentheses found.");
 		}
-		TreeNode parent = currentNode.parent;
-		parent.setRight(currentNode.right);
-		currentNode.reset();
-		return parent;
+
+		if (currentNode.parent != null) {
+			TreeNode parent = currentNode.parent;
+			parent.setRight(currentNode.right);
+			currentNode.reset();
+			return parent;
+		} else {
+			TreeNode child = currentNode.right;
+			currentNode.reset();
+			child.parent = null;
+			return child;
+		}
 	}
 
 	/**

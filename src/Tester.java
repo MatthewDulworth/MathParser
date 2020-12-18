@@ -9,9 +9,8 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		lexerTests();
-
-//		System.out.println(Parser.parse("3.00 * 4 ^ (3.0 + 1) - 700"));
+//		lexerTests();
+		System.out.println(Parser.parse("3 ^ 5! * 3 ^3 - 2 + cos(3! ^2)"));
 	}
 
 	private static void lexerTests() throws IOException {

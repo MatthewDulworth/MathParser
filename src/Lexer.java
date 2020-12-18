@@ -64,7 +64,8 @@ public class Lexer implements Iterable<Token> {
 			prev = TokenType.MULTIPLY;
 		}
 
-		if (prev == TokenType.CLOSE_PAREN || prev == TokenType.NUMBER || prev == TokenType.VARIABLE) {
+		if (prev == TokenType.CLOSE_PAREN || prev == TokenType.NUMBER ||
+				  prev == TokenType.VARIABLE || prev == TokenType.FACTORIAL) {
 			return new Token(TokenType.SUBTRACT);
 		} else {
 			return new Token(TokenType.NEGATION);
