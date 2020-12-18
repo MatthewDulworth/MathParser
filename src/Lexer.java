@@ -84,6 +84,8 @@ public class Lexer implements Iterable<Token> {
 			type = TokenType.OPEN_PAREN;
 		} else if (c == ')') {
 			type = TokenType.CLOSE_PAREN;
+		} else if (c == '^') {
+			type = TokenType.EXPONEN;
 		} else {
 			throw new IOException("Encountered unknown character. Unicode value: \\u" +
 					  Integer.toHexString(c | 0x10000).substring(1));

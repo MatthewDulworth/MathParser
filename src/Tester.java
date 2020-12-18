@@ -9,15 +9,15 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		//lexerTests();
+		lexerTests();
 
-		Parser.parse("3 + 4 * 2");
-		Parser.parse("7 * 10 / 4 + 13 - 2");
+//		Parser.parse("3 + 4 * 2");
+//		Parser.parse("7 * 10 / 4 + 13 - 2");
 	}
 
 	private static void lexerTests() throws IOException {
 
-		String in = "3 4 + (4 / 2) * 5 - 24534";
+		String in = "3 4 + (4 / 2) * 5 - 24534 ^ 12";
 		Token[] arr = {
 				  new NumberToken(34),
 				  new Token(TokenType.ADD),
@@ -30,6 +30,8 @@ public class Tester {
 				  new NumberToken(5),
 				  new Token(TokenType.SUBTRACT),
 				  new NumberToken(24534),
+				  new Token(TokenType.EXPONEN),
+				  new NumberToken(12),
 		};
 		List<Token> exp = new ArrayList<>(Arrays.asList(arr));
 		Lexer lexer = new Lexer(in);

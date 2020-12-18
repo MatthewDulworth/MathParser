@@ -7,6 +7,7 @@ public enum TokenType {
 	SUBTRACT,
 	MULTIPLY,
 	DIVIDE,
+	EXPONEN,
 	OPEN_PAREN,
 	CLOSE_PAREN,
 }

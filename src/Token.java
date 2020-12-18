@@ -7,24 +7,20 @@ public class Token {
 	static char[] symbolMap;
 
 	static {
-		precedenceMap = new int[7];
-
-		// add & subtract have the same precedence
+		precedenceMap = new int[TokenType.values().length];
 		precedenceMap[TokenType.ADD.ordinal()] = 2;
 		precedenceMap[TokenType.SUBTRACT.ordinal()] = 2;
-
-		// divide and multiply have the same precedence
 		precedenceMap[TokenType.MULTIPLY.ordinal()] = 4;
 		precedenceMap[TokenType.DIVIDE.ordinal()] = 4;
-
-		// numbers always have the highest precedence
+		precedenceMap[TokenType.EXPONEN.ordinal()] = 5;
 		precedenceMap[TokenType.NUMBER.ordinal()] = 100;
 
-		symbolMap = new char[7];
+		symbolMap = new char[TokenType.values().length];
 		symbolMap[TokenType.ADD.ordinal()] = '+';
 		symbolMap[TokenType.SUBTRACT.ordinal()] = '-';
 		symbolMap[TokenType.MULTIPLY.ordinal()] = '*';
 		symbolMap[TokenType.DIVIDE.ordinal()] = '/';
+		symbolMap[TokenType.OPEN_PAREN.ordinal()] = '(';
 		symbolMap[TokenType.OPEN_PAREN.ordinal()] = '(';
 		symbolMap[TokenType.CLOSE_PAREN.ordinal()] = ')';
 	}
@@ -54,6 +50,13 @@ public class Token {
 	 */
 	public int getPrecedence() {
 		return precedence;
+	}
+
+	/**
+	 * @return True if the the token is a right associative operator.
+	 */
+	public boolean isRightAssociative() {
+		return type == TokenType.EXPONEN;
 	}
 
 	/**
