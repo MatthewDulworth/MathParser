@@ -4,7 +4,7 @@
 public class Token {
 
 	static int[] precedenceMap;
-	static char[] symbolMap;
+	static String[] symbolMap;
 
 	static {
 		precedenceMap = new int[TokenType.values().length];
@@ -12,20 +12,34 @@ public class Token {
 		precedenceMap[TokenType.CLOSE_PAREN.ordinal()] = 1;
 		precedenceMap[TokenType.ADD.ordinal()] = 2;
 		precedenceMap[TokenType.SUBTRACT.ordinal()] = 2;
+
+		precedenceMap[TokenType.NEGATION.ordinal()] = 3;
 		precedenceMap[TokenType.MULTIPLY.ordinal()] = 4;
 		precedenceMap[TokenType.DIVIDE.ordinal()] = 4;
 		precedenceMap[TokenType.EXPONEN.ordinal()] = 5;
-		precedenceMap[TokenType.NUMBER.ordinal()] = 100;
+		precedenceMap[TokenType.FACTORIAL.ordinal()] = 6;
 
-		symbolMap = new char[TokenType.values().length];
-		symbolMap[TokenType.NUMBER.ordinal()] = '.';
-		symbolMap[TokenType.ADD.ordinal()] = '+';
-		symbolMap[TokenType.SUBTRACT.ordinal()] = '-';
-		symbolMap[TokenType.MULTIPLY.ordinal()] = '*';
-		symbolMap[TokenType.DIVIDE.ordinal()] = '/';
-		symbolMap[TokenType.EXPONEN.ordinal()] = '^';
-		symbolMap[TokenType.OPEN_PAREN.ordinal()] = '(';
-		symbolMap[TokenType.CLOSE_PAREN.ordinal()] = ')';
+		precedenceMap[TokenType.NUMBER.ordinal()] = Integer.MAX_VALUE;
+		precedenceMap[TokenType.SIN.ordinal()] = Integer.MAX_VALUE;
+		precedenceMap[TokenType.COS.ordinal()] = Integer.MAX_VALUE;
+		precedenceMap[TokenType.TAN.ordinal()] = Integer.MAX_VALUE;
+
+		symbolMap = new String[TokenType.values().length];
+		symbolMap[TokenType.OPEN_PAREN.ordinal()] = "(";
+		symbolMap[TokenType.CLOSE_PAREN.ordinal()] = ")";
+		symbolMap[TokenType.ADD.ordinal()] = "+";
+		symbolMap[TokenType.SUBTRACT.ordinal()] = "-";
+
+		symbolMap[TokenType.NEGATION.ordinal()] = "-neg";
+		symbolMap[TokenType.MULTIPLY.ordinal()] = "*";
+		symbolMap[TokenType.DIVIDE.ordinal()] = "/";
+		symbolMap[TokenType.EXPONEN.ordinal()] = "^";
+		symbolMap[TokenType.FACTORIAL.ordinal()] = "!";
+
+		symbolMap[TokenType.NUMBER.ordinal()] = ".";
+		symbolMap[TokenType.SIN.ordinal()] = "sin";
+		symbolMap[TokenType.COS.ordinal()] = "cos";
+		symbolMap[TokenType.TAN.ordinal()] = "tan";
 	}
 
 	private final TokenType type;
@@ -66,7 +80,7 @@ public class Token {
 	 * @return A string representation of the Token
 	 */
 	public String toString() {
-		return symbolMap[type.ordinal()] + "";
+		return symbolMap[type.ordinal()];
 	}
 
 	/**

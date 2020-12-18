@@ -43,12 +43,40 @@ public class Lexer implements Iterable<Token> {
 
 			if (Character.isDigit(c) || c == '.') {
 				i = addNumberToken(i, input, tokens);
+			} else if (Character.isLetter(c)) {
+				i = addFunction(i, input, tokens);
 			} else {
 				tokens.add(getNonNumberToken(c));
 			}
 		}
 
 		return tokens;
+	}
+
+	private static int addFunction(int i, String input, List<Token> tokens) throws IOException {
+		StringBuilder value = new StringBuilder();
+
+		while (i < input.length() && Character.isLetter(input.charAt(i))) {
+			value.append(input.charAt(i));
+			i++;
+		}
+		i--;
+
+		String str = value.toString();
+
+		TokenType type;
+		if (str.equals("sin")) {
+			type = TokenType.SIN;
+		} else if (str.equals("cos")) {
+			type = TokenType.COS;
+		} else if (str.equals("tan")) {
+			type = TokenType.TAN;
+		} else {
+			throw new IOException("Invalid function name: " + str);
+		}
+
+		tokens.add(new Token(type));
+		return i;
 	}
 
 	private static int addNumberToken(int i, String input, List<Token> tokens) throws IOException {
@@ -98,6 +126,8 @@ public class Lexer implements Iterable<Token> {
 			type = TokenType.CLOSE_PAREN;
 		} else if (c == '^') {
 			type = TokenType.EXPONEN;
+		} else if (c == '!') {
+			type = TokenType.FACTORIAL;
 		} else {
 			throw new IOException("Encountered unknown character. Unicode value: \\u" +
 					  Integer.toHexString(c | 0x10000).substring(1));

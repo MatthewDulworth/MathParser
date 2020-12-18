@@ -11,7 +11,7 @@ public class Tester {
 
 		lexerTests();
 
-		System.out.println(Parser.parse("3.00 * 4 ^ (3.0 + 1) - 700"));
+//		System.out.println(Parser.parse("3.00 * 4 ^ (3.0 + 1) - 700"));
 	}
 
 	private static void lexerTests() throws IOException {
@@ -39,7 +39,7 @@ public class Tester {
 		Lexer lexer = new Lexer(in);
 		test("Tests Lexer.getTokens on full expression ", lexerListEqual(lexer, exp));
 
-		in = "3.446 + 23434.8989 * 0.234234 / .000    4";
+		in = "cos(344.2)!+sin(2^5)*!3^cos(34/2)";
 		lexer = new Lexer(in);
 		System.out.println(lexer);
 	}
