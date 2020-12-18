@@ -42,28 +42,33 @@ public class Lexer implements Iterable<Token> {
 			char c = input.charAt(i);
 
 			if (Character.isDigit(c) || c == '.') {
-				// Creates a number Token from the digit at the given index in the input string and
-				// all digits immediately following it.
-				StringBuilder value = new StringBuilder();
-				boolean foundDecimal = false;
-				while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
-					if (input.charAt(i) == '.' && !foundDecimal) {
-						foundDecimal = true;
-					} else if(input.charAt(i) == '.'){
-						throw new IOException("Too many decimals in the number");
-					}
-
-					value.append(input.charAt(i));
-					i++;
-				}
-				i--;
-				tokens.add(new NumberToken(Double.parseDouble(value.toString())));
+				i = addNumberToken(i, input, tokens);
 			} else {
 				tokens.add(getNonNumberToken(c));
 			}
 		}
 
 		return tokens;
+	}
+
+	private static int addNumberToken(int i, String input, List<Token> tokens) throws IOException {
+		// Creates a number Token from the digit at the given index in the input string and
+		// all digits immediately following it.
+		StringBuilder value = new StringBuilder();
+		boolean foundDecimal = false;
+		while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
+			if (input.charAt(i) == '.' && !foundDecimal) {
+				foundDecimal = true;
+			} else if (input.charAt(i) == '.') {
+				throw new IOException("Too many decimals in the number");
+			}
+
+			value.append(input.charAt(i));
+			i++;
+		}
+		i--;
+		tokens.add(new NumberToken(Double.parseDouble(value.toString())));
+		return i;
 	}
 
 	/**
