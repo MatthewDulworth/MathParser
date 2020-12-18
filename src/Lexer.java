@@ -41,11 +41,18 @@ public class Lexer implements Iterable<Token> {
 		for (int i = 0; i < input.length(); i++) {
 			char c = input.charAt(i);
 
-			if (Character.isDigit(c)) {
+			if (Character.isDigit(c) || c == '.') {
 				// Creates a number Token from the digit at the given index in the input string and
 				// all digits immediately following it.
 				StringBuilder value = new StringBuilder();
-				while (i < input.length() && Character.isDigit(input.charAt(i))) {
+				boolean foundDecimal = false;
+				while (i < input.length() && (Character.isDigit(input.charAt(i)) || input.charAt(i) == '.')) {
+					if (input.charAt(i) == '.' && !foundDecimal) {
+						foundDecimal = true;
+					} else if(input.charAt(i) == '.'){
+						throw new IOException("Too many decimals in the number");
+					}
+
 					value.append(input.charAt(i));
 					i++;
 				}
@@ -105,5 +112,12 @@ public class Lexer implements Iterable<Token> {
 	 */
 	public int size() {
 		return tokens.size();
+	}
+
+	/**
+	 * @return
+	 */
+	public String toString() {
+		return tokens.toString();
 	}
 }

@@ -9,12 +9,15 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-//		lexerTests();
+		lexerTests();
 
-		System.out.println(Parser.parse("3 * 4 ^ (3 + 1) - 700"));
+//		System.out.println(Parser.parse("3 * 4 ^ (3 + 1) - 700"));
 	}
 
 	private static void lexerTests() throws IOException {
+
+
+
 
 		String in = "3 4 + (4 / 2) * 5 - 24534 ^ 12";
 		Token[] arr = {
@@ -35,6 +38,10 @@ public class Tester {
 		List<Token> exp = new ArrayList<>(Arrays.asList(arr));
 		Lexer lexer = new Lexer(in);
 		test("Tests Lexer.getTokens on full expression ", lexerListEqual(lexer, exp));
+
+		in = "3.446 + 23434.8989 * 0.234234 / .000    4";
+		lexer = new Lexer(in);
+		System.out.println(lexer);
 	}
 
 	private static boolean lexerListEqual(Lexer lexer, List<Token> list) {

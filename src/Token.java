@@ -18,7 +18,7 @@ public class Token {
 		precedenceMap[TokenType.NUMBER.ordinal()] = 100;
 
 		symbolMap = new char[TokenType.values().length];
-		symbolMap[TokenType.NUMBER.ordinal()] = '0';
+		symbolMap[TokenType.NUMBER.ordinal()] = '.';
 		symbolMap[TokenType.ADD.ordinal()] = '+';
 		symbolMap[TokenType.SUBTRACT.ordinal()] = '-';
 		symbolMap[TokenType.MULTIPLY.ordinal()] = '*';
