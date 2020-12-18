@@ -55,6 +55,13 @@ public class Lexer implements Iterable<Token> {
 		return tokens;
 	}
 
+	/**
+	 * Determines if the '-' character is a NEGATION or SUBTRACT token and returns the correct
+	 * token.
+	 *
+	 * @param tokens List of all tokens so far.
+	 * @return A SUBTRACT ot NEGATION token.
+	 */
 	private static Token subtractOrNegate(List<Token> tokens) {
 
 		TokenType prev;
@@ -64,6 +71,8 @@ public class Lexer implements Iterable<Token> {
 			prev = TokenType.MULTIPLY;
 		}
 
+		// The token is subtract only if the previous token is a close parentheses, a number, a
+		// variable, or a factorial.
 		if (prev == TokenType.CLOSE_PAREN || prev == TokenType.NUMBER ||
 				  prev == TokenType.VARIABLE || prev == TokenType.FACTORIAL) {
 			return new Token(TokenType.SUBTRACT);
@@ -72,6 +81,15 @@ public class Lexer implements Iterable<Token> {
 		}
 	}
 
+	/**
+	 * Pulls a function from the input string and adds it to the list of tokens.
+	 *
+	 * @param i      The current index in the input.
+	 * @param input  The input string.
+	 * @param tokens The tokens found so far.
+	 * @return The new index in the input.
+	 * @throws IOException If the function is unrecognized.
+	 */
 	private static int addFunction(int i, String input, List<Token> tokens) throws IOException {
 		StringBuilder value = new StringBuilder();
 
@@ -98,6 +116,15 @@ public class Lexer implements Iterable<Token> {
 		return i;
 	}
 
+	/**
+	 * Pulls a number from the input string and adds it to the given list of tokens.
+	 *
+	 * @param i      The current index in the input.
+	 * @param input  The input string.
+	 * @param tokens The tokens found so far.
+	 * @return The new index in the input.
+	 * @throws IOException If the number has tow many decimals or is only a decimal.
+	 */
 	private static int addNumberToken(int i, String input, List<Token> tokens) throws IOException {
 		// Creates a number Token from the digit at the given index in the input string and
 		// all digits immediately following it.
@@ -172,7 +199,7 @@ public class Lexer implements Iterable<Token> {
 	}
 
 	/**
-	 * @return
+	 * @return A string representation of the lexer.
 	 */
 	public String toString() {
 		return tokens.toString();
